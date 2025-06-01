@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  name-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: name-demo
+    ports:
+      - "8009:8080"
+    restart: unless-stopped
