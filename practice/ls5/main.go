@@ -4,4 +4,30 @@
 
 // Gợi ý: ctx, cancel := context.WithCancel(...).
 
-package ls5
+package main
+
+import (
+	"context"
+	"log"
+	"time"
+)
+
+func worker(ctx context.Context) {
+	for {
+		select {
+		case <-ctx.Done():
+			log.Println("Worker is done")
+			return
+		default:
+			log.Println("Working...")
+			time.Sleep(200 * time.Millisecond)
+		}
+	}
+}
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	go worker(ctx)
+	time.Sleep(2 * time.Second)
+	cancel()
+}

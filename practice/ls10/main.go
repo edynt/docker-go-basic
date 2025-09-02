@@ -24,4 +24,4 @@
 
 // select để xử lý timeout.
 
-package ls10
+package main

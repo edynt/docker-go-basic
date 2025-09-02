@@ -4,4 +4,38 @@
 
 // Gợi ý: select { case <-time.After(...) }.
 
-package ls3
+// Cách giải:
+// Tạo một channel ch để nhận kết quả từ goroutine giả lập API.
+
+// Trong goroutine: time.Sleep(2 * time.Second) rồi gửi "API done" vào channel.
+
+// Ở main, dùng select:
+
+// Nếu nhận được dữ liệu từ ch → in kết quả.
+
+// Nếu time.After(1 * time.Second) hết hạn → in "timeout".
+
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func slowApi(ch chan string) {
+	time.Sleep(2 * time.Second)
+	ch <- "API done"
+}
+
+func main() {
+	ch := make(chan string)
+
+	go slowApi(ch)
+
+	select {
+	case result := <-ch:
+		fmt.Println(result)
+	case <-time.After(1 * time.Second):
+		fmt.Println("timeout")
+	}
+}

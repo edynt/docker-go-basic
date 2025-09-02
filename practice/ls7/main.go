@@ -8,4 +8,30 @@
 
 // - có mutex (sẽ đúng).
 
-package ls7
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func main() {
+	counter := 0
+
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+
+		// chi tra ra cac ket qua cuoi cung
+		go func() {
+			defer wg.Done()
+			mu.Lock()
+			counter++
+			mu.Unlock()
+		}()
+	}
+	wg.Wait()
+	fmt.Println(counter)
+}
