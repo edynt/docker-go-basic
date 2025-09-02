@@ -86,7 +86,11 @@ Chỉ cần bật server 1 lần. Nếu nhiều người cùng bấm nút → `s
 ---
 
 ## 9. WaitGroup
-- **Là gì:** Dùng để chờ nhiều goroutine kết thúc.
+- **Là gì:** 
+ -- Dùng để chờ nhiều goroutine kết thúc.
+ -- Chờ cho nhiều goroutine hoàn tất công việc của chúng trước khi tiếp tục.
+ -- Tránh tình trạng main() kết thúc quá sớm khi goroutine chưa chạy xong.
+
 - **Vấn đề:** Nếu quên gọi `wg.Done()` → chương trình chờ mãi.
 - **Cách giải quyết:** Luôn gọi `defer wg.Done()` trong goroutine.
 
